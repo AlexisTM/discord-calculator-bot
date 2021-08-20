@@ -19,4 +19,8 @@ calc 10 + 2
 graph 10x**2 * sin(x)
 
 > The bot will send an image with the graph of the y = [input] data.
+
+calc 2k21
+
+> 2021
 ```
