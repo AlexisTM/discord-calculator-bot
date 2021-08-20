@@ -81,6 +81,7 @@ STEPS = np.arange(-10, 10, 0.01)
 
 class MyClient(discord.Client):
     COMMAND_CALC = "calc "
+    COMMAND_EXEC = ">> "
     COMMAND_HEY = "calc"
     COMMAND_GRAPH = "graph "
 
@@ -89,13 +90,21 @@ class MyClient(discord.Client):
 
     async def on_message(self, message):
         data = message.content
-        data = data.lower()
         try:
             data = number_sub.convert(data)
         except Exception as e:
             print("Failed to convert 1k1 types")
         if data.startswith(self.COMMAND_CALC):
+            data = data.lower()
             data = data[len(self.COMMAND_CALC) :]
+            try:
+                result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
+                await message.channel.send(result)
+            except Exception as e:
+                await message.channel.send("Couldn't understand your stuff: " + str(e))
+
+        if data.startswith(self.COMMAND_EXEC):
+            data = data[len(self.COMMAND_EXEC) :]
             try:
                 result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
                 await message.channel.send(result)
@@ -109,6 +118,7 @@ class MyClient(discord.Client):
 
         elif data.startswith(self.COMMAND_GRAPH):
             data = data[len(self.COMMAND_GRAPH) :]
+            data = data.lower()
             results_x = []
             results_y = []
             try:
