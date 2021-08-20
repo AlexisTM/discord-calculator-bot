@@ -122,6 +122,8 @@ class MyClient(discord.Client):
                 plt.figure()
                 plt.plot(results_x, results_y)
                 plt.title("y = " + data)
+                plt.xlabel("x")
+                plt.ylabel("y")
                 plt.grid(True)
                 plt.savefig("foo.png")
                 buf = io.BytesIO()
