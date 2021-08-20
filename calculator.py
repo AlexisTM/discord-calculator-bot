@@ -5,6 +5,8 @@ import matplotlib
 import numpy
 from matplotlib import pyplot as plt
 import io
+import number_sub
+
 #https://discord.com/api/oauth2/authorize?client_id=863044673849655306&permissions=257698359360&scope=bot
 
 from math import acos, asin, atan, atan2, ceil, cos, cosh, degrees, e, \
@@ -42,6 +44,7 @@ class MyClient(discord.Client):
         if data.startswith(self.COMMAND_CALC):
             data = data[len(self.COMMAND_CALC):]
             try:
+              data = number_sub.convert(data)
               result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
               await message.channel.send(result)
             except Exception as e:
@@ -54,6 +57,7 @@ class MyClient(discord.Client):
             data = data[len(self.COMMAND_GRAPH):]
             results_x = []
             results_y = []
+            data = number_sub.convert(data)
             try:
                 for x in range(-10, 11):
                     SAFE_COMMAND_DICT['x'] = x
