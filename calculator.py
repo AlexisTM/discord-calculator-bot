@@ -94,7 +94,7 @@ class MyClient(discord.Client):
             data = number_sub.convert(data)
         except Exception as e:
             print("Failed to convert 1k1 types")
-        if data.startswith(self.COMMAND_CALC):
+        if data.lower().startswith(self.COMMAND_CALC):
             data = data.lower()
             data = data[len(self.COMMAND_CALC) :]
             try:
@@ -103,7 +103,7 @@ class MyClient(discord.Client):
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
 
-        if data.startswith(self.COMMAND_EXEC):
+        if data.lower().startswith(self.COMMAND_EXEC):
             data = data[len(self.COMMAND_EXEC) :]
             try:
                 result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
@@ -111,12 +111,12 @@ class MyClient(discord.Client):
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
 
-        elif data.startswith(self.COMMAND_HEY):
+        elif data.lower().startswith(self.COMMAND_HEY):
             await message.channel.send(
                 "Hello! <3 I am Calcy and I'm soooo goood at math.\nCall me with calc to solve basic equations: calc 1+1\nCall me with graph to solve equations such as: graph x + 1."
             )
 
-        elif data.startswith(self.COMMAND_GRAPH):
+        elif data.lower().startswith(self.COMMAND_GRAPH):
             data = data[len(self.COMMAND_GRAPH) :]
             data = data.lower()
             results_x = []
