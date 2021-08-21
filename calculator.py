@@ -135,7 +135,6 @@ class MyClient(discord.Client):
                 plt.xlabel("x")
                 plt.ylabel("y")
                 plt.grid(True)
-                plt.savefig("foo.png")
                 buf = io.BytesIO()
                 plt.savefig(buf, format="png")
                 buf.seek(0)
