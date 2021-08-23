@@ -70,7 +70,11 @@ SAFE_MATH_COMMANDS = [
     "tanh",
 ]
 
-EXTRA_SAFE_FUNCTIONS = [
+SAFE_COMMAND_DICT = {}
+for k in SAFE_MATH_COMMANDS:
+    SAFE_COMMAND_DICT[k] = locals().get(k)
+
+EXTRA_SAFE_BUILTINS = [
     "int",
     "float",
     "bool",
@@ -114,15 +118,11 @@ EXTRA_SAFE_FUNCTIONS = [
     "zip"
 ]
 
-SAFE_COMMAND_DICT = {}
-for k in SAFE_MATH_COMMANDS:
-    SAFE_COMMAND_DICT[k] = locals().get(k)
-
-for k in EXTRA_SAFE_FUNCTIONS:
-    SAFE_COMMAND_DICT[k] = locals().get(k)
+GLOBAL_BUILTINS_DICT = {}
+for k in EXTRA_SAFE_BUILTINS:
+    GLOBAL_BUILTINS_DICT[k] = __builtins__.__dict__.get(k)
 
 STEPS = np.arange(-10, 10, 0.01)
-
 
 class MyClient(discord.Client):
     COMMAND_CALC = "calc "
@@ -143,7 +143,7 @@ class MyClient(discord.Client):
             data = data.lower()
             data = data[len(self.COMMAND_CALC) :]
             try:
-                result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
+                result = eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -151,7 +151,7 @@ class MyClient(discord.Client):
         if data.lower().startswith(self.COMMAND_EXEC):
             data = data[len(self.COMMAND_EXEC) :]
             try:
-                result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
+                result = eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -171,7 +171,7 @@ class MyClient(discord.Client):
                     SAFE_COMMAND_DICT["x"] = x
                     results_x.append(x)
                     results_y.append(
-                        eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
+                        eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
                     )
                 # image = plt.figimage()
                 plt.figure()
