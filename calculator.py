@@ -69,12 +69,57 @@ SAFE_MATH_COMMANDS = [
     "tan",
     "tanh",
 ]
-SAFE_COMMAND_DICT = {}
 
+EXTRA_SAFE_FUNCTIONS = [
+    "int",
+    "float",
+    "bool",
+    "str",
+    "ord",
+    "abs",
+    "all",
+    "any",
+    "ascii",
+    "bin",
+    "bytearray",
+    "bytes",
+    "chr",
+    "complex",
+    "dict",
+    "set",
+    "divmod",
+    "enumerate",
+    "filter",
+    "format",
+    "hash",
+    "hex",
+    "id",
+    "iter",
+    "len",
+    "list",
+    "map",
+    "max",
+    "min",
+    "next",
+    "oct",
+    "pow",
+    "repr",
+    "reversed",
+    "round",
+    "slice",
+    "sorted",
+    "sum",
+    "tuple",
+    "type",
+    "zip"
+]
+
+SAFE_COMMAND_DICT = {}
 for k in SAFE_MATH_COMMANDS:
     SAFE_COMMAND_DICT[k] = locals().get(k)
 
-SAFE_COMMAND_DICT["abs"] = abs
+for k in EXTRA_SAFE_FUNCTIONS:
+    SAFE_COMMAND_DICT[k] = locals().get(k)
 
 STEPS = np.arange(-10, 10, 0.01)
 
