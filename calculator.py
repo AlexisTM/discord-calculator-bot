@@ -105,6 +105,7 @@ EXTRA_SAFE_BUILTINS = [
     "max",
     "min",
     "next",
+    "print",
     "oct",
     "pow",
     "repr",
