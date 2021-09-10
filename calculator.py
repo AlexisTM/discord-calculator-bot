@@ -149,7 +149,6 @@ class MyClient(discord.Client):
         except Exception as e:
             print("Failed to convert 1k1 types")
         if data.lower().startswith(self.COMMAND_CALC):
-            data = data.lower()
             data = data[len(self.COMMAND_CALC) :]
             try:
                 result = eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
@@ -172,7 +171,6 @@ class MyClient(discord.Client):
 
         elif data.lower().startswith(self.COMMAND_GRAPH):
             data = data[len(self.COMMAND_GRAPH) :]
-            data = data.lower()
             results_x = []
             results_y = []
             try:
@@ -200,7 +198,6 @@ class MyClient(discord.Client):
 
         elif data.lower().startswith(self.COMMAND_CONIC):
             data = data[len(self.COMMAND_CONIC) :]
-            data = data.lower()
             results_x = []
             results_y = []
             try:
