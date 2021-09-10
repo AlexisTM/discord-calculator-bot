@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import io
 import number_sub
+from float_fix import float_to_decimal
 # https://discord.com/api/oauth2/authorize?client_id=863044673849655306&permissions=257698359360&scope=bot
 
 from math import (
@@ -150,6 +151,7 @@ class MyClient(discord.Client):
             print("Failed to convert 1k1 types")
         if data.lower().startswith(self.COMMAND_CALC):
             data = data[len(self.COMMAND_CALC) :]
+            data = float_to_decimal(data)
             try:
                 result = eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
                 await message.channel.send(result)
