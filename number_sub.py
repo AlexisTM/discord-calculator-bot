@@ -1,6 +1,6 @@
 import re
 
-PATTERN = re.compile(r"([0-9]+)([kmbtq])([0-9]*)")
+PATTERN = re.compile(r"([0-9]+)([kmBTQ])([0-9]*)")
 
 CONVERSIONS = {
     "k": "1000",
