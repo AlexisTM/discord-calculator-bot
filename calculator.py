@@ -5,7 +5,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 import io
 import number_sub
-
 # https://discord.com/api/oauth2/authorize?client_id=863044673849655306&permissions=257698359360&scope=bot
 
 from math import (
@@ -36,7 +35,9 @@ from math import (
     sqrt,
     tan,
     tanh,
+    factorial,
 )
+from decimal import Decimal
 
 DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
 
@@ -68,6 +69,8 @@ SAFE_MATH_COMMANDS = [
     "sqrt",
     "tan",
     "tanh",
+    "factorial",
+    "Decimal",
 ]
 
 SAFE_COMMAND_DICT = {}
@@ -125,11 +128,16 @@ for k in EXTRA_SAFE_BUILTINS:
 
 STEPS = np.arange(-10, 10, 0.01)
 
+X_CONIC = np.linspace(-10, 10, 500)
+Y_CONIC = np.linspace(-10, 10, 500)
+X_CONIC, Y_CONIC = np.meshgrid(X_CONIC, Y_CONIC)
+
 class MyClient(discord.Client):
     COMMAND_CALC = "calc "
     COMMAND_EXEC = ">> "
     COMMAND_HEY = "calc"
     COMMAND_GRAPH = "graph "
+    COMMAND_CONIC = "conic "
 
     async def on_ready(self):
         print("Logged on as {0}!".format(self.user))
@@ -174,10 +182,34 @@ class MyClient(discord.Client):
                     results_y.append(
                         eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
                     )
-                # image = plt.figimage()
+
                 plt.figure()
                 plt.plot(results_x, results_y)
                 plt.title("y = " + data)
+                plt.xlabel("x")
+                plt.ylabel("y")
+                plt.grid(True)
+                buf = io.BytesIO()
+                plt.savefig(buf, format="png")
+                buf.seek(0)
+                file = discord.File(buf, filename="graph.png")
+                await message.channel.send("Here it is <3", file=file)
+
+            except Exception as e:
+                await message.channel.send("Couldn't understand your stuff: " + str(e))
+
+        elif data.lower().startswith(self.COMMAND_CONIC):
+            data = data[len(self.COMMAND_CONIC) :]
+            data = data.lower()
+            results_x = []
+            results_y = []
+            try:
+                SAFE_COMMAND_DICT["x"] = X_CONIC
+                SAFE_COMMAND_DICT["y"] = Y_CONIC
+                result = eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
+                plt.figure()
+                plt.contour(X_CONIC, Y_CONIC, result, [0])
+                plt.title(data + " = 0")
                 plt.xlabel("x")
                 plt.ylabel("y")
                 plt.grid(True)
