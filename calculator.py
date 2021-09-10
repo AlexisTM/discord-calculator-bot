@@ -136,9 +136,73 @@ X_CONIC, Y_CONIC = np.meshgrid(X_CONIC, Y_CONIC)
 class MyClient(discord.Client):
     COMMAND_CALC = "calc "
     COMMAND_EXEC = ">> "
-    COMMAND_HEY = "calc"
     COMMAND_GRAPH = "graph "
     COMMAND_CONIC = "conic "
+    COMMAND_HEY = "calc"
+
+    def get_help(self):
+      embed = discord.Embed(title="Calcy help", color=0x26C0EB)
+      embed.add_field(
+          name="What am I?",
+          value="I am Calcy, a 'safe' python execution environment.",
+          inline=True,
+      )
+
+      embed.add_field(
+          name="calc ",
+          value="""The calc command is used for quick maths with most Python math functions available and floats are handled as Decimals:
+
+Examples:
+  - calc 0.1 + 0.2 # exact decimals
+    > 0.3
+  - calc 12**23 # large integers
+    > 6624737266949237011120128
+  - calc 1 | 2 # bitwize operations
+    > 6624737266949237011120128
+  - calc sqrt(abs(sin(pi*e))) # python's math functions
+    > 0.8797401237108087""",
+          inline=False,
+      )
+
+      embed.add_field(
+          name="graph ",
+          value="""The graph command uses pyplot to graph one or multiple functions.
+The functions will be of the type: `y = x` where you only write the right side of it.
+
+Examples:
+  - graph x
+    > graphs the function `y = x`
+  - graph [x, -x]
+    > graphs the functions `y = x` and `y = -x`""",
+          inline=False,
+      )
+
+      embed.add_field(
+          name=">> ",
+          value="""This is a basic python execution, but you do not have access to loops.
+Yet, you can execute all string operators and use map, reduce, filter functions.
+
+Examples:
+  - >> "hello".upper()
+    > HELLO
+  - >> list(map(ord, "hello"))
+    >[104, 101, 108, 108, 111]""",
+          inline=False,
+      )
+
+      embed.add_field(
+          name="conic ",
+          value="""Graphs a 2D conic of type `y**2 + x**2 = 1`.
+Due to limitations, you have to move all arguments on one side to make it `= 0`.
+
+Examples:
+  - conic x**2 + y**2 - 3**2
+    > makes a circle of radius 3 (x² + y² = 3²)
+  - conic (x**2 + y**2 -1)**3 - x**2 * y**3
+    > Surprise!""",
+          inline=False,
+      )
+      return embed
 
     async def on_ready(self):
         print("Logged on as {0}!".format(self.user))
@@ -165,11 +229,6 @@ class MyClient(discord.Client):
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
-
-        elif data.lower().startswith(self.COMMAND_HEY):
-            await message.channel.send(
-                "Hello! <3 I am Calcy and I'm soooo goood at math.\nCall me with calc to solve basic equations: calc 1+1\nCall me with graph to solve equations such as: graph x + 1."
-            )
 
         elif data.lower().startswith(self.COMMAND_GRAPH):
             data = data[len(self.COMMAND_GRAPH) :]
@@ -221,6 +280,8 @@ class MyClient(discord.Client):
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
 
+        elif data.lower().startswith(self.COMMAND_HEY):
+            await message.channel.send(embed=self.get_help())
 
 if __name__ == "__main__":
     # Rights: 34880
