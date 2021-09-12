@@ -122,7 +122,7 @@ EXTRA_SAFE_BUILTINS = [
     "sum",
     "tuple",
     "type",
-    "zip"
+    "zip",
 ]
 
 GLOBAL_BUILTINS_DICT = {}
@@ -135,6 +135,7 @@ X_CONIC = np.linspace(-10, 10, 500)
 Y_CONIC = np.linspace(-10, 10, 500)
 X_CONIC, Y_CONIC = np.meshgrid(X_CONIC, Y_CONIC)
 
+
 class MyClient(discord.Client):
     COMMAND_CALC = "calc "
     COMMAND_EXEC = ">> "
@@ -143,16 +144,16 @@ class MyClient(discord.Client):
     COMMAND_HEY = "calc"
 
     def get_help(self):
-      embed = discord.Embed(title="Calcy help", color=0x26C0EB)
-      embed.add_field(
-          name="What am I?",
-          value="I am Calcy, a 'safe' python execution environment.",
-          inline=True,
-      )
+        embed = discord.Embed(title="Calcy help", color=0x26C0EB)
+        embed.add_field(
+            name="What am I?",
+            value="I am Calcy, a 'safe' python execution environment.",
+            inline=True,
+        )
 
-      embed.add_field(
-          name="calc ",
-          value="""The calc command is used for quick maths with most Python math functions available and floats are handled as Decimals:
+        embed.add_field(
+            name="calc ",
+            value="""The calc command is used for quick maths with most Python math functions available and floats are handled as Decimals:
 
 **Examples:**
   - calc 0.1 + 0.2 # exact decimals
@@ -163,12 +164,12 @@ class MyClient(discord.Client):
     \\> 6624737266949237011120128
   - calc sqrt(abs(sin(pi*e))) # python's math functions
     \\> 0.8797401237108087""",
-          inline=False,
-      )
+            inline=False,
+        )
 
-      embed.add_field(
-          name="graph ",
-          value="""The graph command uses pyplot to graph one or multiple functions.
+        embed.add_field(
+            name="graph ",
+            value="""The graph command uses pyplot to graph one or multiple functions.
 The functions will be of the type: `y = x` where you only write the right side of it.
 
 **Examples:**
@@ -176,12 +177,12 @@ The functions will be of the type: `y = x` where you only write the right side o
     \\> graphs the function `y = x`
   - graph [x, -x]
     \\> graphs the functions `y = x` and `y = -x`""",
-          inline=False,
-      )
+            inline=False,
+        )
 
-      embed.add_field(
-          name=">> ",
-          value="""This is a basic python execution, but you do not have access to loops.
+        embed.add_field(
+            name=">> ",
+            value="""This is a basic python execution, but you do not have access to loops.
 Yet, you can execute all string operators and use map, reduce, filter functions.
 
 **Examples:**
@@ -189,12 +190,12 @@ Yet, you can execute all string operators and use map, reduce, filter functions.
     \\> HELLO
   - \\>\\> list(map(ord, "hello"))
     \\> [104, 101, 108, 108, 111]""",
-          inline=False,
-      )
+            inline=False,
+        )
 
-      embed.add_field(
-          name="conic ",
-          value="""Graphs a 2D conic of type `y\\*\\*2 + x\\*\\*2 = 1`.
+        embed.add_field(
+            name="conic ",
+            value="""Graphs a 2D conic of type `y\\*\\*2 + x\\*\\*2 = 1`.
 Due to limitations, you have to move all arguments on one side to make it `= 0`.
 
 **Examples:**
@@ -202,9 +203,9 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
     > makes a circle of radius 3 (x² + y² = 3²)
   - conic (x\\*\\*2 + y\\*\\*2 -1)\\*\\*3 - x\\*\\*2 * y\\*\\*3
     > Surprise!""",
-          inline=False,
-      )
-      return embed
+            inline=False,
+        )
+        return embed
 
     async def on_ready(self):
         print("Logged on as {0}!".format(self.user))
@@ -219,7 +220,9 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
             data = data[len(self.COMMAND_CALC) :]
             data = float_to_decimal(data)
             try:
-                result = slightly_safer_eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
+                result = slightly_safer_eval(
+                    data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT
+                )
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -227,7 +230,9 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
         if data.lower().startswith(self.COMMAND_EXEC):
             data = data[len(self.COMMAND_EXEC) :]
             try:
-                result = slightly_safer_eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
+                result = slightly_safer_eval(
+                    data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT
+                )
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -241,7 +246,11 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
                     SAFE_COMMAND_DICT["x"] = x
                     results_x.append(x)
                     results_y.append(
-                        slightly_safer_eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
+                        slightly_safer_eval(
+                            data,
+                            {"__builtins__": GLOBAL_BUILTINS_DICT},
+                            SAFE_COMMAND_DICT,
+                        )
                     )
 
                 plt.figure()
@@ -266,7 +275,9 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
             try:
                 SAFE_COMMAND_DICT["x"] = X_CONIC
                 SAFE_COMMAND_DICT["y"] = Y_CONIC
-                result = slightly_safer_eval(data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT)
+                result = slightly_safer_eval(
+                    data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT
+                )
                 plt.figure()
                 plt.contour(X_CONIC, Y_CONIC, result, [0])
                 plt.title(data + " = 0")
@@ -284,6 +295,7 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
 
         elif data.lower().startswith(self.COMMAND_HEY):
             await message.channel.send(embed=self.get_help())
+
 
 if __name__ == "__main__":
     # Rights: 34880

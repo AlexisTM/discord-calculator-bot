@@ -1,6 +1,7 @@
 from tokenize import tokenize, untokenize, NUMBER, STRING, NAME, OP
 from io import BytesIO
 
+
 def float_to_decimal(s):
     """Substitute Decimals for floats in a string of statements.
 
@@ -24,15 +25,12 @@ def float_to_decimal(s):
     -3.217160342717258261933904529E-7
     """
     result = []
-    g = tokenize(BytesIO(s.encode('utf-8')).readline)  # tokenize the string
+    g = tokenize(BytesIO(s.encode("utf-8")).readline)  # tokenize the string
     for toknum, tokval, _, _, _ in g:
-        if toknum == NUMBER and '.' in tokval:  # replace NUMBER tokens
-            result.extend([
-                (NAME, 'Decimal'),
-                (OP, '('),
-                (STRING, repr(tokval)),
-                (OP, ')')
-            ])
+        if toknum == NUMBER and "." in tokval:  # replace NUMBER tokens
+            result.extend(
+                [(NAME, "Decimal"), (OP, "("), (STRING, repr(tokval)), (OP, ")")]
+            )
         else:
             result.append((toknum, tokval))
-    return untokenize(result).decode('utf-8')
+    return untokenize(result).decode("utf-8")
