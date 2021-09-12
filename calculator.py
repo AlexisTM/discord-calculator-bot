@@ -220,9 +220,9 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
             data = data[len(self.COMMAND_CALC) :]
             data = float_to_decimal(data)
             try:
-                result = run_until(5, slightly_safer_eval, (
+                result = run_until(5, slightly_safer_eval, 
                     data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT
-                ))
+                )
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -230,9 +230,9 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
         if data.lower().startswith(self.COMMAND_EXEC):
             data = data[len(self.COMMAND_EXEC) :]
             try:
-                result = run_until(5, slightly_safer_eval, (
+                result = run_until(5, slightly_safer_eval, 
                     data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT
-                ))
+                )
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -246,11 +246,11 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
                     SAFE_COMMAND_DICT["x"] = x
                     results_x.append(x)
                     results_y.append(
-                        run_until(5, slightly_safer_eval, (
+                        run_until(5, slightly_safer_eval, 
                             data,
                             {"__builtins__": GLOBAL_BUILTINS_DICT},
                             SAFE_COMMAND_DICT,
-                        ))
+                        )
                     )
 
                 plt.figure()
@@ -275,9 +275,9 @@ Due to limitations, you have to move all arguments on one side to make it `= 0`.
             try:
                 SAFE_COMMAND_DICT["x"] = X_CONIC
                 SAFE_COMMAND_DICT["y"] = Y_CONIC
-                result = run_until(5, slightly_safer_eval, (
+                result = run_until(5, slightly_safer_eval,
                     data, {"__builtins__": GLOBAL_BUILTINS_DICT}, SAFE_COMMAND_DICT
-                ))
+                )
                 plt.figure()
                 plt.contour(X_CONIC, Y_CONIC, result, [0])
                 plt.title(data + " = 0")
