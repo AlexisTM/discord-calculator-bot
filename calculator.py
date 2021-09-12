@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import io
 import number_sub
+from safer_eval import slightly_safer_eval
 
 # https://discord.com/api/oauth2/authorize?client_id=863044673849655306&permissions=257698359360&scope=bot
 
@@ -98,7 +99,7 @@ class MyClient(discord.Client):
             data = data.lower()
             data = data[len(self.COMMAND_CALC) :]
             try:
-                result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
+                result = slightly_safer_eval(data, SAFE_COMMAND_DICT)
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -106,7 +107,7 @@ class MyClient(discord.Client):
         if data.lower().startswith(self.COMMAND_EXEC):
             data = data[len(self.COMMAND_EXEC) :]
             try:
-                result = eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
+                result = slightly_safer_eval(data, SAFE_COMMAND_DICT)
                 await message.channel.send(result)
             except Exception as e:
                 await message.channel.send("Couldn't understand your stuff: " + str(e))
@@ -126,7 +127,7 @@ class MyClient(discord.Client):
                     SAFE_COMMAND_DICT["x"] = x
                     results_x.append(x)
                     results_y.append(
-                        eval(data, {"__builtins__": None}, SAFE_COMMAND_DICT)
+                        slightly_safer_eval(data, SAFE_COMMAND_DICT)
                     )
                 # image = plt.figimage()
                 plt.figure()
