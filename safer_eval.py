@@ -4,7 +4,7 @@ from typing import Callable
 TIMEOUT=5
 
 def run_until(seconds: int, func: Callable, *args) -> None:
-    with multiprocessing.Pool(processes=5) as pool:
+    with multiprocessing.Pool(processes=1) as pool:
         result = pool.apply_async(func, args)
         try:
             return result.get(timeout=seconds)
