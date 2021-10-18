@@ -11,16 +11,53 @@ python3 /home/alarm/calculator.py
 
 ## Usage
 
+**calc**
+
+The calc command is used for quick maths with most Python math functions available and floats are handled as Decimals:
+
 ```bash
-calc 10 + 2
+calc 0.1 + 0.2 # exact decimals
+> 0.3
+- calc 12**23 # large integers
+> 6624737266949237011120128
+calc 1 | 2 # bitwize operations
+> 6624737266949237011120128
+calc sqrt(abs(sin(pi*e))) # python's math functions
+> 0.8797401237108087
+```
 
-> The bot will reply 12
+**graph**
 
-graph 10x**2 * sin(x)
+The graph command uses pyplot to graph one or multiple functions.
+The functions will be of the type: y = x where you only write the right side of it.
 
-> The bot will send an image with the graph of the y = [input] data.
+```bash
+graph x
+> graphs the function y = x
+graph [x, -x]
+> graphs the functions y = x and y = -x
+```
 
-calc 2k21
+**>>**
 
-> 2021
+This is a basic python execution, but you do not have access to loops.
+Yet, you can execute all string operators and use map, reduce, filter functions.
+
+```bash
+>> "hello".upper()
+> HELLO
+>> list(map(ord, "hello"))
+> [104, 101, 108, 108, 111]
+```
+
+**conic**
+
+Graphs a 2D conic of type y\*\*2 + x\*\*2 = 1.
+Due to limitations, you have to move all arguments on one side to make it = 0.
+
+```bash
+conic x**2 + y**2 - 3**2
+> makes a circle of radius 3 (x² + y² = 3²)
+conic (x**2 + y**2 -1)**3 - x**2 * y**3
+> Surprise!
 ```
