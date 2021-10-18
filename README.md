@@ -26,18 +26,6 @@ calc sqrt(abs(sin(pi*e))) # python's math functions
 > 0.8797401237108087
 ```
 
-**graph**
-
-The graph command uses pyplot to graph one or multiple functions.
-The functions will be of the type: y = x where you only write the right side of it.
-
-```bash
-graph x
-> graphs the function y = x
-graph [x, -x]
-> graphs the functions y = x and y = -x
-```
-
 **>>**
 
 This is a basic python execution, but you do not have access to loops.
@@ -50,6 +38,20 @@ Yet, you can execute all string operators and use map, reduce, filter functions.
 > [104, 101, 108, 108, 111]
 ```
 
+**graph**
+
+The graph command uses pyplot to graph one or multiple functions.
+The functions will be of the type: y = x where you only write the right side of it.
+
+```bash
+graph x
+> graphs the function y = x
+graph [x, -x]
+> graphs the functions y = x and y = -x
+```
+
+![Beautiful (truly) of a graph](doc/graph.png)
+
 **conic**
 
 Graphs a 2D conic of type y\*\*2 + x\*\*2 = 1.
@@ -61,3 +63,5 @@ conic x**2 + y**2 - 3**2
 conic (x**2 + y**2 -1)**3 - x**2 * y**3
 > Surprise!
 ```
+
+![*Overwhelming image of a circle](doc/conic.png)
