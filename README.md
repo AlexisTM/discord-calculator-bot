@@ -1,6 +1,8 @@
 # discord-calculator-bot
 This is a discord bot that allows you to quickly calculate and graph math.
 
+Come and test on Discord!: https://discord.gg/Y8XPcj2Q
+
 ## Start the bot
 
 ```bash
