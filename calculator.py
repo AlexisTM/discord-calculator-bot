@@ -303,7 +303,9 @@ if __name__ == "__main__":
     intents.typing = False
     intents.presences = False
     intents.messages = True
+    intents.message_content=True
     intents.guilds = True
     intents.reactions = True
+    ## Make sure to enable INTENT in discord dev portal
     client = MyClient(intents=intents)
     client.run(DISCORD_BOT_TOKEN)
